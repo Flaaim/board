@@ -17,5 +17,5 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Route::get('/cabinet', [App\Http\Controllers\Cabinet\HomeController::class, 'index'])->name('cabinet');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
