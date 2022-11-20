@@ -9,8 +9,8 @@ services:
         - ./:/var/www
         - ./docker/nginx/ssl:/etc/nginx/ssl
     ports:
-        - "8080:443"
-    links:
+        - "8080:80"
+    depends_on:
       - php-fpm
   php-fpm:
     build:
@@ -18,12 +18,12 @@ services:
       dockerfile: docker/php-fpm.docker
     volumes:
       - ./:/var/www
-    links:
+    depends_on:
       - mysql
       - redis
     environment:
       - "DB_PORT=3306"
-      - "DB_HOST= mysql"
+      - "DB_HOST=mysql"
       - "REDIS_PORT=6379"
       - "REDIS_HOST=redis"
   mysql:
@@ -41,5 +41,10 @@ services:
     image: redis:3.0
     ports:
       - "6379:6379"
-
-  
+  node:
+    build:
+      context: ./ 
+      dockerfile: ./docker/node.docker
+    volumes:
+      - ./:/var/www
+    tty: true
