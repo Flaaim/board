@@ -36,3 +36,25 @@ Breadcrumbs::for('verification.notice', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Verify Email', route('verification.notice'));
 });
+
+    # Admin
+
+Breadcrumbs::for('admin.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Admin', route('admin.index'));
+});
+
+Breadcrumbs::for('users.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('admin.index');
+    $trail->push('Users', route('users.index'));
+});
+
+Breadcrumbs::for('users.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('users.index');
+    $trail->push('Create user', route('users.create'));
+});
+
+Breadcrumbs::for('users.edit', function (BreadcrumbTrail $trail, $user) {
+    $trail->parent('users.index');
+    $trail->push('Edit user', route('users.edit', $user));
+});
