@@ -37,6 +37,7 @@ Breadcrumbs::for('verification.notice', function (BreadcrumbTrail $trail) {
     $trail->push('Verify Email', route('verification.notice'));
 });
 
+
     # Admin
 
 Breadcrumbs::for('admin.index', function (BreadcrumbTrail $trail) {

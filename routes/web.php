@@ -19,6 +19,7 @@ Route::get('/cabinet', [App\Http\Controllers\Cabinet\HomeController::class, 'ind
 
 Auth::routes(['verify' => true]);
 
+
 Route::group([
     'prefix' => 'admin',
     'middleware' => ['auth', 'verified'],
@@ -26,3 +27,8 @@ Route::group([
     Route::get('/', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('admin.index');
     Route::resource('users', App\Http\Controllers\Admin\UsersController::class);
 });
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
