@@ -41,10 +41,14 @@ services:
     image: redis:3.0
     ports:
       - "6379:6379"
-  node:
-    build:
-      context: ./ 
-      dockerfile: ./docker/node.docker
-    volumes:
-      - ./:/var/www
-    tty: true
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    environment:
+      - "PMA_HOST=mysql"
+      - "PMA_PORT=3306"
+    depends_on:
+      - mysql
+    ports:
+      - "8888:80"
+    
