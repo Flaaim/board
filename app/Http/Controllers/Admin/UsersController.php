@@ -6,9 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Http\Services\UserService;
+use App\Http\Requests\UserRequest;
 
 class UsersController extends Controller
 {
+
+    protected $service;
+
+    public function __construct(UserService $service){
+        $this->service = $service;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -36,20 +44,9 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt('user'),
-            'email_verified_at' => Carbon::now(),
-        ]);
-        
+        $this->service->save($request, new User);
         return redirect()->route('users.index');
     }
 
@@ -72,7 +69,6 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-
         return view('admin.users.edit', ['user' => $user]);
     }
 
@@ -83,13 +79,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-        ]);
-        $user->update($request->all());
+        $this->service->save($request, $user);
         return redirect()->route('users.index');
     }
 
@@ -103,5 +95,10 @@ class UsersController extends Controller
     {
         $user->delete();
         return redirect()->back();
+    }
+
+    public function verify(Request $request, User $user){
+        $this->service->save($request, $user);
+        return redirect()->route('users.index');
     }
 }

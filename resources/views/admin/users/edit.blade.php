@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+    <form action="{{route('users.verify', $user)}}" method="POST">
+        @csrf 
+        <button type="submit" name="email_verified_at" value="{{date('d-m-Y')}}" class="btn btn-primary">Verify User</button>
+    </form>
     <div class="form-group">
         <form action="{{route('users.update', $user)}}" method="POST">
             @method('PUT')

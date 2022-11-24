@@ -12,6 +12,7 @@
             <th colspan="2">Actions</th>
         </thead>
         <tbody>
+            <a href="{{route('users.create')}}" class="btn btn-primary my-2">Create User</a>
             @foreach ($users as $user)
                 <tr>
                     <td>{{$user->id}}</td>

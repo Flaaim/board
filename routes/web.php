@@ -26,6 +26,7 @@ Route::group([
 ], function(){
     Route::get('/', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('admin.index');
     Route::resource('users', App\Http\Controllers\Admin\UsersController::class);
+    Route::post('verify', [App\Http\Controllers\Admin\UsersController::class, 'verify'])->name('users.verify');
 });
 
 Route::get('/email/verify', function () {
