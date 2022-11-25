@@ -8,9 +8,17 @@ use App\Models\User;
 use Carbon\Carbon;
 use App\Http\Services\UserService;
 use App\Http\Requests\UserRequest;
+use App\Http\Services\UserService;
+use App\Http\Requests\UserRequest;
 
 class UsersController extends Controller
 {
+
+    protected $service;
+
+    public function __construct(UserService $service){
+        $this->service = $service;
+    }
 
     protected $service;
 
@@ -45,7 +53,9 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
+    public function store(UserRequest $request)
     {
+        $this->service->save($request, new User);
         $this->service->save($request, new User);
         return redirect()->route('users.index');
     }
@@ -79,8 +89,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
+        $this->service->save($request, $user);
         $this->service->save($request, $user);
         return redirect()->route('users.index');
     }
