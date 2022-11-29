@@ -26,10 +26,13 @@ Route::group([
 ], function(){
     Route::get('/', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('admin.index');
     Route::resource('users', App\Http\Controllers\Admin\UsersController::class);
+    Route::resource('roles', App\Http\Controllers\Admin\RoleController::class);
+    Route::get('permissions', [App\Http\Controllers\Admin\PermissionController::class, 'index'])->name('permissions.index');
+    Route::post('permissions', [App\Http\Controllers\Admin\PermissionController::class, 'store'])->name('permissions.store');
     Route::post('verify/{user}', [App\Http\Controllers\Admin\UsersController::class, 'verify'])->name('users.verify');
 });
 
 Route::get('/email/verify', function () {
-    return view('auth.verify-email');
+    return view('auth.verify');
 })->middleware('auth')->name('verification.notice');
 

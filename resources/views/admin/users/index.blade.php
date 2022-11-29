@@ -2,7 +2,7 @@
 
 
 @section('content')
-@include('admin.users._nav')
+    @include('admin._nav')
     <table class="table table-striped">
         <thead>
             <th>#</th>

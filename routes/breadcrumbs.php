@@ -59,3 +59,27 @@ Breadcrumbs::for('users.edit', function (BreadcrumbTrail $trail, $user) {
     $trail->parent('users.index');
     $trail->push('Edit user', route('users.edit', $user));
 });
+
+    # Roles
+
+Breadcrumbs::for('roles.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('admin.index');
+    $trail->push('Roles', route('roles.index'));
+});
+
+Breadcrumbs::for('roles.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('roles.index');
+    $trail->push('Create', route('roles.create'));
+});
+
+Breadcrumbs::for('roles.edit', function (BreadcrumbTrail $trail, $role) {
+    $trail->parent('roles.index');
+    $trail->push('Edit', route('roles.edit', $role));
+});
+
+
+    # Permissions
+Breadcrumbs::for('permissions.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('admin.index');
+    $trail->push('Permissions', route('permissions.index'));
+});

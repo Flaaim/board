@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 use Carbon\Carbon;
 use App\Http\Services\UserService;
 use App\Http\Requests\UserRequest;
-use App\Http\Services\UserService;
-use App\Http\Requests\UserRequest;
+
 
 class UsersController extends Controller
 {
@@ -20,11 +20,6 @@ class UsersController extends Controller
         $this->service = $service;
     }
 
-    protected $service;
-
-    public function __construct(UserService $service){
-        $this->service = $service;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -32,6 +27,7 @@ class UsersController extends Controller
      */
     public function index()
     {
+        $this->authorize('view', Role::class);
         $users = User::all();
         return view('admin.users.index', ['users' => $users]);
     }
@@ -53,9 +49,7 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
-    public function store(UserRequest $request)
     {
-        $this->service->save($request, new User);
         $this->service->save($request, new User);
         return redirect()->route('users.index');
     }
@@ -79,7 +73,9 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.users.edit', ['user' => $user]);
+        $roles = Role::all();
+
+        return view('admin.users.edit', ['user' => $user, 'roles'=> $roles]);
     }
 
     /**
@@ -89,9 +85,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
-        $this->service->save($request, $user);
+       
         $this->service->save($request, $user);
         return redirect()->route('users.index');
     }

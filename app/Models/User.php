@@ -57,4 +57,34 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => Carbon::now()
         ]);
     }
+
+    public function roles(){
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function canDo($perms){
+        if(is_array($perms)){
+            foreach($perms as $permission){
+                return $this->canDo($permission);
+            }
+        } else {
+            foreach($this->roles as $role){
+                    foreach($role->permissions as $perm){
+                        if($perm->alias == $perms){
+                            return true;
+                        }
+                    }
+
+            }
+        }
+        return false;
+    }
+
+    public function saveRoles($roles){
+        if(!empty($roles)){
+            $this->roles()->sync($roles);
+        } else {
+            $this->roles()->detach();
+        }
+    }
 }
