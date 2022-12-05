@@ -31,8 +31,6 @@ class VerifyCommand extends Command
         $email = $this->argument('email');
         $user = User::where('email', $email)->first();
         $user->verify();
-
         $this->info('User '.$user->name.' verified successfully');
-
     }
 }
